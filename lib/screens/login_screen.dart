@@ -146,9 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Container(
             margin: const EdgeInsets.only(left: 15),
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.lightBlueAccent,
+            decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
                   color: Colors.black12,
@@ -157,10 +155,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            child: IconButton(
-                icon: Icon(Icons.chevron_right),
-                color: Colors.white,
-                onPressed: () {}),
+            child: ClipOval(
+              child: Material(
+                color: Colors.lightBlue,
+                child: IconButton(
+                  icon: Icon(Icons.chevron_right),
+                  color: Colors.white,
+                  splashColor: Colors.blueAccent,
+                  iconSize: 40,
+                  onPressed: () {},
+                ),
+              ),
+            ),
           )
         ],
       ),
@@ -207,7 +213,6 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Center(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildTitle(),
