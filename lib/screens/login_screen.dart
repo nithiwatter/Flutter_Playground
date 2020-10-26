@@ -9,12 +9,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  // final FocusNode _emailFocusNode = FocusNode();
+  final FocusNode _passwordFocusNode = FocusNode();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is removed from the
     // widget tree.
-    _emailController.dispose();
+    // _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -25,7 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Form(
         key: _formKey,
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Hello',
@@ -60,6 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
         height: 60.0,
         child: TextFormField(
           controller: _emailController,
+          onFieldSubmitted: (_) =>
+              FocusScope.of(context).requestFocus(_passwordFocusNode),
           keyboardType: TextInputType.emailAddress,
           style: TextStyle(
             color: Colors.black,
@@ -98,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
         height: 60.0,
         child: TextFormField(
           controller: _passwordController,
+          focusNode: _passwordFocusNode,
           obscureText: true,
           style: TextStyle(
             color: Colors.black,
@@ -129,16 +133,82 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  Widget _loginButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Log in',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+          ),
+          Container(
+            margin: const EdgeInsets.only(left: 15),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.lightBlueAccent,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 20,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: IconButton(
+                icon: Icon(Icons.chevron_right),
+                color: Colors.white,
+                onPressed: () {}),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _googleLoginButton() {
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 20),
+          child: Text(
+            '-Or-',
+            style: const TextStyle(fontSize: 18),
+          ),
+        ),
+        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: ElevatedButton(
+              child: Text(
+                'Log in with Google',
+                style: const TextStyle(fontSize: 20),
+              ),
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.blueAccent,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  )),
+            ))
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          height: double.infinity,
-          width: double.infinity,
-          color: Colors.white,
+        body: Container(
+      height: double.infinity,
+      width: double.infinity,
+      color: Colors.white,
+      child: Center(
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildTitle(),
               _emailField(),
@@ -149,11 +219,16 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 20,
               ),
-              _forgotYourPassword()
+              _forgotYourPassword(),
+              SizedBox(
+                height: 20,
+              ),
+              _loginButton(),
+              _googleLoginButton()
             ],
           ),
         ),
       ),
-    );
+    ));
   }
 }
