@@ -6,19 +6,36 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the
+    // widget tree.
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   Widget _buildTitle() {
     return Container(
       margin: const EdgeInsets.only(bottom: 50),
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Hello',
-            style: const TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
-          ),
-          Text('Log in to your account',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
-        ],
+      child: Form(
+        key: _formKey,
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Hello',
+              style: const TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
+            ),
+            Text('Log in to your account',
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+          ],
+        ),
       ),
     );
   }
@@ -41,7 +58,8 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
         height: 60.0,
-        child: TextField(
+        child: TextFormField(
+          controller: _emailController,
           keyboardType: TextInputType.emailAddress,
           style: TextStyle(
             color: Colors.black,
@@ -78,7 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
         height: 60.0,
-        child: TextField(
+        child: TextFormField(
+          controller: _passwordController,
           obscureText: true,
           style: TextStyle(
             color: Colors.black,
