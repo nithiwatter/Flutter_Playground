@@ -47,6 +47,10 @@ class HomeScreen extends StatelessWidget {
               child: Stories(),
             ),
           ),
+          SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+            return PostContainer();
+          }, childCount: 20))
         ],
       ),
     );
